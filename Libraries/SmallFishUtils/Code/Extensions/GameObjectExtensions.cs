@@ -32,6 +32,7 @@ public static class GameObjectExtensions
 	/// <param name="self"></param>
 	/// <param name="sndEvent"></param>
 	/// <param name="follow">Should this sound follow the GameObject?</param>
+	/// <param name="pitch">The pitch of the sound</param>
 	/// <param name="mixerName">The audio mixer, look at the Mixer window in the Editor</param>
 	public static void PlaySound( this GameObject self, SoundEvent sndEvent, bool follow = true, float pitch = 1, string mixerName = null )
 	{
