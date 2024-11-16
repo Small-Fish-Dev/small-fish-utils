@@ -9,6 +9,7 @@ public abstract class SingletonComponent<T> : Component, IHotloadManaged where T
 	{
 		if ( Instance.IsValid() )
 		{
+			Log.Warning( $"Multiple Singletons found of type: {TypeLibrary.GetType<T>().Name}" );
 			Destroy();
 			return;
 		}

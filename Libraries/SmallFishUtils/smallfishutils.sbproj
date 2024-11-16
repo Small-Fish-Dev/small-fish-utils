@@ -1,7 +1,15 @@
 {
   "Title": "Small Fish Utils",
   "Type": "library",
-  "Org": "local",
-  "Ident": "smallfishutils",
-  "Schema": 1
+  "Org": "fish",
+  "Ident": "sfu",
+  "Schema": 1,
+  "IncludeSourceFiles": false,
+  "Resources": null,
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "IsWhitelistDisabled": false,
+  "Metadata": {
+    "CsProjName": ""
+  }
 }
