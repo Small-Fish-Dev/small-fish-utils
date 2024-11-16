@@ -1,6 +1,6 @@
 namespace SmallFishUtils;
 
-public static class SFUGameObjectExtensions
+public static class FishyGameObjectExtensions
 {
 	/// <summary>
 	/// Creates a GameObject that plays a sound.
