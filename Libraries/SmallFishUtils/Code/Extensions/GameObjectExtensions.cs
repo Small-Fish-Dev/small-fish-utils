@@ -3,6 +3,30 @@ namespace SmallFishUtils;
 public static class FishyGameObjectExtensions
 {
 	/// <summary>
+	/// Setup the networking for a game object.
+	/// </summary>
+	public static void SetupNetworking(
+		this GameObject obj,
+		Connection owner = null,
+		OwnerTransfer transfer = OwnerTransfer.Takeover,
+		NetworkOrphaned orphaned = NetworkOrphaned.ClearOwner
+	)
+	{
+		if ( !obj.IsValid() )
+			return;
+
+		obj.NetworkMode = NetworkMode.Object;
+
+		if ( !obj.Network.Active )
+			obj.NetworkSpawn( owner );
+		else if ( Networking.IsActive && owner != null )
+			obj.Network.AssignOwnership( owner );
+
+		obj.Network.SetOwnerTransfer( transfer );
+		obj.Network.SetOrphanedMode( orphaned );
+	}
+
+	/// <summary>
 	/// Creates a GameObject that plays a sound.
 	/// </summary>
 	/// <param name="self"></param>
