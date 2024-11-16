@@ -56,6 +56,12 @@ public sealed class SoundEmitter : Component
 	public float LifeTime { get; set; } = 1f;
 
 	/// <summary>
+	/// The pitch the sound should play with.
+	/// </summary>
+	[Property, Range( 0.1f, 2f )]
+	public float Pitch { get; set; } = 1f;
+
+	/// <summary>
 	/// How long until we started playing the sound?
 	/// </summary>
 	private TimeSince TimeSincePlayed { get; set; }
@@ -76,6 +82,7 @@ public sealed class SoundEmitter : Component
 		if ( SoundEvent == null ) return;
 		TimeSincePlayed = 0f;
 		handle = Sound.Play( SoundEvent, WorldPosition );
+		handle.Pitch = Pitch;
 		handle.TargetMixer = Mixer.FindMixerByName( MixerName );
 
 		initVolume = handle.Volume;

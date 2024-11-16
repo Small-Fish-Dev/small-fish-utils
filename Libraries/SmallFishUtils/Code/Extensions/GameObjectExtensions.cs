@@ -1,6 +1,6 @@
 namespace SmallFishUtils;
 
-public static class FishyGameObjectExtensions
+public static class GameObjectExtensions
 {
 	/// <summary>
 	/// Setup the networking for a game object.
@@ -33,7 +33,7 @@ public static class FishyGameObjectExtensions
 	/// <param name="sndEvent"></param>
 	/// <param name="follow">Should this sound follow the GameObject?</param>
 	/// <param name="mixerName">The audio mixer, look at the Mixer window in the Editor</param>
-	public static void PlaySound( this GameObject self, SoundEvent sndEvent, bool follow = true, string mixerName = null )
+	public static void PlaySound( this GameObject self, SoundEvent sndEvent, bool follow = true, float pitch = 1, string mixerName = null )
 	{
 		if ( !self.IsValid() )
 			return;
@@ -58,15 +58,16 @@ public static class FishyGameObjectExtensions
 		}
 
 		emitter.SoundEvent = sndEvent;
+		emitter.Pitch = pitch;
 		emitter.Play();
 	}
 
-	/// <inheritdoc cref="PlaySound(GameObject, SoundEvent, bool, string)"/>
-	public static void PlaySound( this GameObject self, string sndPath, bool follow = true, string mixerName = null )
+	/// <inheritdoc cref="PlaySound(GameObject, SoundEvent, bool, float, string)"/>
+	public static void PlaySound( this GameObject self, string sndPath, bool follow = true, float pitch = 1, string mixerName = null )
 	{
 		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
 		{
-			self.PlaySound( sndEvent, follow, mixerName );
+			self.PlaySound( sndEvent, follow, pitch, mixerName );
 		}
 	}
 
@@ -74,17 +75,17 @@ public static class FishyGameObjectExtensions
 	/// Broacast a sound to all players via SoundEmitter.
 	/// </summary>
 	[Broadcast]
-	public static void BroadcastSound( this GameObject self, string soundPath, bool follow = true, string mixerName = null )
+	public static void BroadcastSound( this GameObject self, string soundPath, bool follow = true, float pitch = 1, string mixerName = null )
 	{
-		self.PlaySound( soundPath, follow, mixerName );
+		self.PlaySound( soundPath, follow, pitch, mixerName );
 	}
 
 	/// <summary>
 	/// Broacast a sound to all players via SoundEmitter.
 	/// </summary>
 	[Broadcast]
-	public static void BroadcastSound( this GameObject self, SoundEvent soundEvent, bool follow = true, string mixerName = null )
+	public static void BroadcastSound( this GameObject self, SoundEvent soundEvent, bool follow = true, float pitch = 1, string mixerName = null )
 	{
-		self.PlaySound( soundEvent, follow, mixerName );
+		self.PlaySound( soundEvent, follow, pitch, mixerName );
 	}
 }

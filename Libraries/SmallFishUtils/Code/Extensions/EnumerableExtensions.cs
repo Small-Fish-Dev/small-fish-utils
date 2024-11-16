@@ -1,6 +1,6 @@
 namespace SmallFishUtils;
 
-public static class FishyEnumerableExtensions
+public static class EnumerableExtensions
 {
 	public static int HashCombine<T>( this IEnumerable<T> e, Func<T, decimal> selector )
 	{
@@ -11,7 +11,4 @@ public static class FishyEnumerableExtensions
 
 		return result;
 	}
-
-	public static byte[] Serialize<T>( this T data ) => JsonSerializer.SerializeToUtf8Bytes( data );
-	public static T Deserialize<T>( this byte[] bytes ) => JsonSerializer.Deserialize<T>( bytes );
 }
