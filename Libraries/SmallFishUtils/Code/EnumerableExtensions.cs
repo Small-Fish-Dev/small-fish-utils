@@ -1,6 +1,6 @@
 namespace SmallFishUtils;
 
-public static class EnumerableExtensions
+public static class SFUEnumerableExtensions
 {
 	public static int HashCombine<T>( this IEnumerable<T> e, Func<T, decimal> selector )
 	{
