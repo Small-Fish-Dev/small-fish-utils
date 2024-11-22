@@ -25,15 +25,6 @@ public static class GameObjectExtensions
 		obj.Network.SetOrphanedMode( orphaned );
 	}
 
-	public struct SoundSettings
-	{
-		public bool Follow = true;
-		public float Pitch = 1f;
-		public string Mixer = "";
-
-		public SoundSettings() { }
-	}
-
 	/// <summary>
 	/// Creates a GameObject that plays a sound.
 	/// </summary>

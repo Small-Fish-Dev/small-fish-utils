@@ -1,6 +1,15 @@
 namespace SmallFishUtils;
 
-// Thanks Facepunch
+public struct SoundSettings
+{
+	public bool Follow = true;
+	public float Pitch = 1f;
+	public string Mixer = "";
+
+	public SoundSettings() { }
+}
+
+// Based on Facepunch source code!!
 
 /// <summary>
 /// A simple component that plays a sound.
