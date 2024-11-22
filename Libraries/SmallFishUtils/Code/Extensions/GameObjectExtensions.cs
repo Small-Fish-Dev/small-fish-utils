@@ -9,8 +9,7 @@ public static class GameObjectExtensions
 		this GameObject obj,
 		Connection owner = null,
 		OwnerTransfer transfer = OwnerTransfer.Takeover,
-		NetworkOrphaned orphaned = NetworkOrphaned.ClearOwner
-	)
+		NetworkOrphaned orphaned = NetworkOrphaned.ClearOwner )
 	{
 		if ( !obj.IsValid() )
 			return;
@@ -26,15 +25,17 @@ public static class GameObjectExtensions
 		obj.Network.SetOrphanedMode( orphaned );
 	}
 
+	public struct SoundSettings
+	{
+		public bool Follow;
+		public float Pitch;
+		public string Mixer;
+	}
+
 	/// <summary>
 	/// Creates a GameObject that plays a sound.
 	/// </summary>
-	/// <param name="self"></param>
-	/// <param name="sndEvent"></param>
-	/// <param name="follow">Should this sound follow the GameObject?</param>
-	/// <param name="pitch">The pitch of the sound</param>
-	/// <param name="mixerName">The audio mixer, look at the Mixer window in the Editor</param>
-	public static void PlaySound( this GameObject self, SoundEvent sndEvent, bool follow = true, float pitch = 1, string mixerName = null )
+	public static void PlaySound( this GameObject self, SoundEvent sndEvent, SoundSettings? settings = null )
 	{
 		if ( !self.IsValid() )
 			return;
@@ -42,10 +43,17 @@ public static class GameObjectExtensions
 		if ( sndEvent is null )
 			return;
 
+		settings ??= new SoundSettings()
+		{
+			Follow = true,
+			Pitch = 1f,
+			Mixer = null,
+		};
+
 		var gameObject = self.Scene.CreateObject();
 		gameObject.Name = sndEvent.ResourceName;
 
-		if ( follow )
+		if ( settings.Value.Follow )
 			gameObject.Parent = self;
 		else
 			gameObject.Transform.World = self.Transform.World;
@@ -53,40 +61,38 @@ public static class GameObjectExtensions
 		var emitter = gameObject.Components.Create<SoundEmitter>();
 
 		// Point to an emitter if we chose one
-		if ( !string.IsNullOrEmpty( mixerName ) )
-		{
-			emitter.MixerName = mixerName;
-		}
+		if ( !string.IsNullOrEmpty( settings.Value.Mixer ) )
+			emitter.MixerName = settings.Value.Mixer;
 
 		emitter.SoundEvent = sndEvent;
-		emitter.Pitch = pitch;
+		emitter.Pitch = settings.Value.Pitch;
 		emitter.Play();
 	}
 
-	/// <inheritdoc cref="PlaySound(GameObject, SoundEvent, bool, float, string)"/>
-	public static void PlaySound( this GameObject self, string sndPath, bool follow = true, float pitch = 1, string mixerName = null )
+	/// <summary>
+	/// Play a sound given the sound path.
+	/// </summary>
+	public static void PlaySound( this GameObject self, string sndPath, SoundSettings? settings = null )
 	{
 		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
-		{
-			self.PlaySound( sndEvent, follow, pitch, mixerName );
-		}
+			self.PlaySound( sndEvent, settings );
 	}
 
 	/// <summary>
-	/// Broacast a sound to all players via SoundEmitter.
+	/// Broacast a sound.
 	/// </summary>
 	[Broadcast]
-	public static void BroadcastSound( this GameObject self, string soundPath, bool follow = true, float pitch = 1, string mixerName = null )
+	public static void BroadcastSound( this GameObject self, string soundPath, SoundSettings? settings = null )
 	{
-		self.PlaySound( soundPath, follow, pitch, mixerName );
+		self.PlaySound( soundPath, settings );
 	}
 
 	/// <summary>
-	/// Broacast a sound to all players via SoundEmitter.
+	/// Broacast a sound.
 	/// </summary>
 	[Broadcast]
-	public static void BroadcastSound( this GameObject self, SoundEvent soundEvent, bool follow = true, float pitch = 1, string mixerName = null )
+	public static void BroadcastSound( this GameObject self, SoundEvent soundEvent, SoundSettings? settings = null )
 	{
-		self.PlaySound( soundEvent, follow, pitch, mixerName );
+		self.PlaySound( soundEvent, settings );
 	}
 }

@@ -328,23 +328,6 @@
           "Scale": 0.2
         }
       ]
-    },
-    {
-      "__guid": "49b07ddc-23c8-472e-9d33-e603a0a805c9",
-      "Flags": 0,
-      "Name": "Singleton",
-      "Position": "-86.51988,89.36175,65.98865",
-      "Enabled": true,
-      "Components": [
-        {
-          "__type": "Test.Test",
-          "__guid": "c1dd2303-eb55-4e93-b16c-d6119045b925"
-        },
-        {
-          "__type": "Test.Test",
-          "__guid": "fc5a239c-e850-4365-868f-d3770dc2289e"
-        }
-      ]
     }
   ],
   "SceneProperties": {
@@ -376,6 +359,5 @@
   "Title": "minimal",
   "Description": null,
   "__references": [],
-  "HasUnsavedChanges": false,
   "__version": 2
 }
