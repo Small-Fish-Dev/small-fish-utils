@@ -75,7 +75,7 @@ public sealed class SoundEmitter : Component
 	/// If set, overrides the volume value of the sound event.
 	/// </summary>
 	[Property, Range( 0f, 1f, 0.01f, true, true )]
-	public float? Volume { get; set; } = 1f;
+	public float? Volume { get; set; } = null;
 
 	/// <summary>
 	/// How long until we started playing the sound?
