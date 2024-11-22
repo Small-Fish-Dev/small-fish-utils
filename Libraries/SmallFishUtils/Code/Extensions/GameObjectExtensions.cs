@@ -48,12 +48,13 @@ public static class GameObjectExtensions
 
 		var emitter = gameObject.Components.Create<SoundEmitter>();
 
-		// Point to an emitter if we chose one
+		emitter.SoundEvent = sndEvent;
+		emitter.Follow = settings.Value.Follow;
+		emitter.Pitch = settings.Value.Pitch;
+
 		if ( !string.IsNullOrEmpty( settings.Value.Mixer ) )
 			emitter.MixerName = settings.Value.Mixer;
 
-		emitter.SoundEvent = sndEvent;
-		emitter.Pitch = settings.Value.Pitch;
 		emitter.Play();
 	}
 
