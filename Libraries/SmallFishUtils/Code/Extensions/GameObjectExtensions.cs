@@ -27,9 +27,11 @@ public static class GameObjectExtensions
 
 	public struct SoundSettings
 	{
-		public bool Follow;
-		public float Pitch;
-		public string Mixer;
+		public bool Follow = true;
+		public float Pitch = 1f;
+		public string Mixer = "";
+
+		public SoundSettings() { }
 	}
 
 	/// <summary>
@@ -43,12 +45,7 @@ public static class GameObjectExtensions
 		if ( sndEvent is null )
 			return;
 
-		settings ??= new SoundSettings()
-		{
-			Follow = true,
-			Pitch = 1f,
-			Mixer = null,
-		};
+		settings ??= new SoundSettings();
 
 		var gameObject = self.Scene.CreateObject();
 		gameObject.Name = sndEvent.ResourceName;
