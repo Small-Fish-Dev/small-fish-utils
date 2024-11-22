@@ -4,6 +4,7 @@ public struct SoundSettings
 {
 	public bool Follow = true;
 	public float Pitch = 1f;
+	public float? Volume = null;
 	public string Mixer = "";
 
 	public SoundSettings() { }
@@ -71,6 +72,12 @@ public sealed class SoundEmitter : Component
 	public float Pitch { get; set; } = 1f;
 
 	/// <summary>
+	/// If set, overrides the volume value of the sound event.
+	/// </summary>
+	[Property, Range( 0f, 1f, 0.01f, true, true )]
+	public float? Volume { get; set; } = 1f;
+
+	/// <summary>
 	/// How long until we started playing the sound?
 	/// </summary>
 	private TimeSince TimeSincePlayed { get; set; }
@@ -97,7 +104,7 @@ public sealed class SoundEmitter : Component
 		if ( Follow )
 			handle.SetParent( GameObject );
 
-		initVolume = handle.Volume;
+		initVolume = Volume ?? handle.Volume;
 	}
 
 	protected override void OnStart()

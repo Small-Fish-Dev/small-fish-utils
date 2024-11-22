@@ -52,6 +52,9 @@ public static class GameObjectExtensions
 		emitter.Follow = settings.Value.Follow;
 		emitter.Pitch = settings.Value.Pitch;
 
+		if ( settings.Value.Volume.HasValue )
+			emitter.Volume = settings.Value.Volume;
+
 		if ( !string.IsNullOrEmpty( settings.Value.Mixer ) )
 			emitter.MixerName = settings.Value.Mixer;
 
