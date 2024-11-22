@@ -82,11 +82,8 @@ public sealed class SoundEmitter : Component
 	/// </summary>
 	private TimeSince TimeSincePlayed { get; set; }
 
-	// Cache the initial volume so we can scale it.
-	float initVolume = 1f;
-
-	// Cache the SoundHandle so we can update its position per-frame.
-	SoundHandle handle;
+	private float initVolume = 1f;
+	private SoundHandle handle;
 
 	/// <summary>
 	/// Play the sound
@@ -101,10 +98,13 @@ public sealed class SoundEmitter : Component
 		handle.Pitch = Pitch;
 		handle.TargetMixer = Mixer.FindMixerByName( MixerName );
 
+		if ( Volume.HasValue )
+			handle.Volume = Volume.Value;
+
 		if ( Follow )
 			handle.SetParent( GameObject );
 
-		initVolume = Volume ?? handle.Volume;
+		initVolume = handle.Volume;
 	}
 
 	protected override void OnStart()
