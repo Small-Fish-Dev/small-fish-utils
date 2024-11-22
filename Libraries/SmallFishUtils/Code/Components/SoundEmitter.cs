@@ -109,7 +109,7 @@ public sealed class SoundEmitter : Component
 		// Otherwise, let's keep updating the position
 		else if ( Follow )
 		{
-			handle.Position = GameObject.WorldPosition;
+			handle.SetParent( GameObject );
 		}
 
 		if ( VolumeModifier )
