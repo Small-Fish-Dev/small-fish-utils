@@ -85,6 +85,9 @@ public sealed class SoundEmitter : Component
 		handle.Pitch = Pitch;
 		handle.TargetMixer = Mixer.FindMixerByName( MixerName );
 
+		if ( Follow )
+			handle.SetParent( GameObject );
+
 		initVolume = handle.Volume;
 	}
 
@@ -98,7 +101,8 @@ public sealed class SoundEmitter : Component
 
 	protected override void OnUpdate()
 	{
-		if ( handle is null ) return;
+		if ( handle is null )
+			return;
 
 		// If we stopped playing, kill the game object (maybe)
 		if ( handle.IsStopped )
@@ -106,16 +110,9 @@ public sealed class SoundEmitter : Component
 			if ( DestroyOnFinish )
 				GameObject.Destroy();
 		}
-		// Otherwise, let's keep updating the position
-		else if ( Follow )
-		{
-			handle.SetParent( GameObject );
-		}
 
 		if ( VolumeModifier )
-		{
 			handle.Volume = initVolume * VolumeOverTime.Evaluate( TimeSincePlayed / LifeTime );
-		}
 	}
 
 	protected override void OnDestroy()
