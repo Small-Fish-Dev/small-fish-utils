@@ -104,7 +104,10 @@ public sealed class SoundEmitter : Component
 			handle.Volume = Volume.Value;
 
 		if ( Follow )
+		{
+			handle.FollowParent = true;
 			handle.SetParent( GameObject );
+		}
 
 		initVolume = handle.Volume;
 	}
