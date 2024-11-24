@@ -3,7 +3,7 @@ namespace SmallFishUtils;
 public struct SoundSettings
 {
 	public bool Follow = true;
-	public float Pitch = 1f;
+	public float? Pitch = null;
 	public float? Volume = null;
 	public string Mixer = "";
 
@@ -69,7 +69,7 @@ public sealed class SoundEmitter : Component
 	/// The pitch the sound should play with.
 	/// </summary>
 	[Property, Range( 0.1f, 2f )]
-	public float Pitch { get; set; } = 1f;
+	public float? Pitch { get; set; } = null;
 
 	/// <summary>
 	/// If set, overrides the volume value of the sound event.
@@ -95,8 +95,10 @@ public sealed class SoundEmitter : Component
 		if ( SoundEvent == null ) return;
 		TimeSincePlayed = 0f;
 		handle = Sound.Play( SoundEvent, WorldPosition );
-		handle.Pitch = Pitch;
 		handle.TargetMixer = Mixer.FindMixerByName( MixerName );
+
+		if ( Pitch.HasValue )
+			handle.Pitch = Pitch.Value;
 
 		if ( Volume.HasValue )
 			handle.Volume = Volume.Value;

@@ -50,7 +50,9 @@ public static class GameObjectExtensions
 
 		emitter.SoundEvent = sndEvent;
 		emitter.Follow = settings.Value.Follow;
-		emitter.Pitch = settings.Value.Pitch;
+
+		if ( settings.Value.Pitch.HasValue )
+			emitter.Pitch = settings.Value.Pitch.Value;
 
 		if ( settings.Value.Volume.HasValue )
 			emitter.Volume = settings.Value.Volume;
