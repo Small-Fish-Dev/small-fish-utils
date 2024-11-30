@@ -1,7 +1,7 @@
 namespace SmallFishUtils;
 
-// Based on Facepunch source code!!
-public abstract class SingletonComponent<T> : Component, IHotloadManaged where T : SingletonComponent<T>
+// Originally taken from Facepunch source code, thank you!
+public abstract class Singleton<T> : Component, IHotloadManaged where T : Singleton<T>
 {
 	public static T Instance { get; private set; }
 

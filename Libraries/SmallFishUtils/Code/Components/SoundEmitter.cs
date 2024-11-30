@@ -10,10 +10,10 @@ public struct SoundSettings
 	public SoundSettings() { }
 }
 
-// Based on Facepunch source code!!
+// Originally taken from Facepunch source code, thank you!
 
 /// <summary>
-/// A simple component that plays a sound.
+/// A simple component that handles playing sounds.
 /// </summary>
 public sealed class SoundEmitter : Component
 {
@@ -82,34 +82,34 @@ public sealed class SoundEmitter : Component
 	/// </summary>
 	private TimeSince TimeSincePlayed { get; set; }
 
-	private float initVolume = 1f;
-	private SoundHandle handle;
+	private float _initVolume = 1f;
+	private SoundHandle _handle;
 
 	/// <summary>
 	/// Play the sound
 	/// </summary>
 	public void Play()
 	{
-		handle?.Stop();
+		_handle?.Stop();
 
 		if ( SoundEvent == null ) return;
 		TimeSincePlayed = 0f;
-		handle = Sound.Play( SoundEvent, WorldPosition );
-		handle.TargetMixer = Mixer.FindMixerByName( MixerName );
+		_handle = Sound.Play( SoundEvent, WorldPosition );
+		_handle.TargetMixer = Mixer.FindMixerByName( MixerName );
 
 		if ( Pitch.HasValue )
-			handle.Pitch = Pitch.Value;
+			_handle.Pitch = Pitch.Value;
 
 		if ( Volume.HasValue )
-			handle.Volume = Volume.Value;
+			_handle.Volume = Volume.Value;
 
 		if ( Follow )
 		{
-			handle.FollowParent = true;
-			handle.SetParent( GameObject );
+			_handle.FollowParent = true;
+			_handle.SetParent( GameObject );
 		}
 
-		initVolume = handle.Volume;
+		_initVolume = _handle.Volume;
 	}
 
 	protected override void OnStart()
@@ -122,23 +122,23 @@ public sealed class SoundEmitter : Component
 
 	protected override void OnUpdate()
 	{
-		if ( handle is null )
+		if ( _handle is null )
 			return;
 
 		// If we stopped playing, kill the game object (maybe)
-		if ( handle.IsStopped )
+		if ( _handle.IsStopped )
 		{
 			if ( DestroyOnFinish )
 				GameObject.Destroy();
 		}
 
 		if ( VolumeModifier )
-			handle.Volume = initVolume * VolumeOverTime.Evaluate( TimeSincePlayed / LifeTime );
+			_handle.Volume = _initVolume * VolumeOverTime.Evaluate( TimeSincePlayed / LifeTime );
 	}
 
 	protected override void OnDestroy()
 	{
-		handle?.Stop();
-		handle = null;
+		_handle?.Stop();
+		_handle = null;
 	}
 }
