@@ -3,7 +3,7 @@ namespace SmallFishUtils;
 public static class GameObjectExtensions
 {
 	/// <summary>
-	/// Setup the networking for a game object.
+	/// Setup the networking for a GameObject.
 	/// </summary>
 	public static void SetupNetworking(
 		this GameObject obj,
@@ -26,7 +26,7 @@ public static class GameObjectExtensions
 	}
 
 	/// <summary>
-	/// Creates a GameObject that plays a sound.
+	/// Play a sound via the GameObject.
 	/// </summary>
 	public static void PlaySound( this GameObject self, SoundEvent sndEvent, SoundSettings? settings = null )
 	{
@@ -37,16 +37,7 @@ public static class GameObjectExtensions
 			return;
 
 		settings ??= new SoundSettings();
-
-		var gameObject = self.Scene.CreateObject();
-		gameObject.Name = sndEvent.ResourceName;
-
-		if ( settings.Value.Follow )
-			gameObject.Parent = self;
-		else
-			gameObject.Transform.World = self.Transform.World;
-
-		var emitter = gameObject.Components.Create<SoundEmitter>();
+		var emitter = self.Components.Create<SoundEmitter>();
 
 		emitter.SoundEvent = sndEvent;
 		emitter.Follow = settings.Value.Follow;
@@ -64,7 +55,7 @@ public static class GameObjectExtensions
 	}
 
 	/// <summary>
-	/// Play a sound given the sound path.
+	/// Play a sound via the GameObject.
 	/// </summary>
 	public static void PlaySound( this GameObject self, string sndPath, SoundSettings? settings = null )
 	{
@@ -73,18 +64,18 @@ public static class GameObjectExtensions
 	}
 
 	/// <summary>
-	/// Broacast a sound.
+	/// Broadcast a sound via the GameObject.
 	/// </summary>
-	[Broadcast]
+	[Rpc.Broadcast]
 	public static void BroadcastSound( this GameObject self, string soundPath, SoundSettings? settings = null )
 	{
 		self.PlaySound( soundPath, settings );
 	}
 
 	/// <summary>
-	/// Broacast a sound.
+	/// Broadcast a sound via the GameObject.
 	/// </summary>
-	[Broadcast]
+	[Rpc.Broadcast]
 	public static void BroadcastSound( this GameObject self, SoundEvent soundEvent, SoundSettings? settings = null )
 	{
 		self.PlaySound( soundEvent, settings );

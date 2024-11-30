@@ -2,6 +2,9 @@ namespace SmallFishUtils;
 
 public static class Vector3Extensions
 {
+	/// <summary>
+	/// Play a sound at the given position.
+	/// </summary>
 	public static void PlaySound( this Vector3 pos, SoundEvent sndEvent, SoundSettings? settings = null )
 	{
 		if ( sndEvent is null )
@@ -28,18 +31,18 @@ public static class Vector3Extensions
 	}
 
 	/// <summary>
-	/// Broacast a sound.
+	/// Broadcast a sound at the given position.
 	/// </summary>
-	[Broadcast]
+	[Rpc.Broadcast]
 	public static void BroadcastSound( this Vector3 pos, string soundPath, SoundSettings? settings = null )
 	{
 		pos.PlaySound( soundPath, settings );
 	}
 
 	/// <summary>
-	/// Broacast a sound.
+	/// Broadcast a sound.
 	/// </summary>
-	[Broadcast]
+	[Rpc.Broadcast]
 	public static void BroadcastSound( this Vector3 pos, SoundEvent soundEvent, SoundSettings? settings = null )
 	{
 		pos.PlaySound( soundEvent, settings );
