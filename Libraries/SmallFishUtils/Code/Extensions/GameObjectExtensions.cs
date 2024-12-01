@@ -35,7 +35,7 @@ public static class GameObjectExtensions
 
 		var handle = self.PlaySound( sndEvent );
 		settings ??= new SoundSettings();
-		settings.Value.SetHandle( self.PlaySound( sndEvent ) );
+		settings.Value.SetHandle( handle );
 		return handle;
 	}
 
@@ -44,9 +44,7 @@ public static class GameObjectExtensions
 	/// </summary>
 	public static SoundHandle PlaySound( this GameObject self, string sndPath, SoundSettings? settings = null )
 	{
-		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
-			return self.PlaySound( sndEvent, settings );
-		return null;
+		return ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) ? self.PlaySound( sndEvent, settings ) : null;
 	}
 
 	/// <summary>

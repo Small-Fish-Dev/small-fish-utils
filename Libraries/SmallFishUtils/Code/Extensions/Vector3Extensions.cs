@@ -18,9 +18,7 @@ public static class Vector3Extensions
 
 	public static SoundHandle PlaySound( this Vector3 pos, string sndPath, SoundSettings? settings = null )
 	{
-		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
-			return pos.PlaySound( sndEvent, settings );
-		return null;
+		return ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) ? pos.PlaySound( sndEvent, settings ) : null;
 	}
 
 	/// <summary>
