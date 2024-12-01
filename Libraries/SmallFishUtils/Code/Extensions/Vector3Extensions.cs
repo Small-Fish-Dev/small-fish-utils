@@ -5,19 +5,22 @@ public static class Vector3Extensions
 	/// <summary>
 	/// Play a sound at the given position.
 	/// </summary>
-	public static void PlaySound( this Vector3 pos, SoundEvent sndEvent, SoundSettings? settings = null )
+	public static SoundHandle PlaySound( this Vector3 pos, SoundEvent sndEvent, SoundSettings? settings = null )
 	{
 		if ( sndEvent is null )
-			return;
+			return null;
 
+		var handle = Sound.Play( sndEvent, pos );
 		settings ??= new SoundSettings();
-		settings.Value.SetHandle( Sound.Play( sndEvent, pos ) );
+		settings.Value.SetHandle( handle );
+		return handle;
 	}
 
-	public static void PlaySound( this Vector3 pos, string sndPath, SoundSettings? settings = null )
+	public static SoundHandle PlaySound( this Vector3 pos, string sndPath, SoundSettings? settings = null )
 	{
 		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
-			pos.PlaySound( sndEvent, settings );
+			return pos.PlaySound( sndEvent, settings );
+		return null;
 	}
 
 	/// <summary>

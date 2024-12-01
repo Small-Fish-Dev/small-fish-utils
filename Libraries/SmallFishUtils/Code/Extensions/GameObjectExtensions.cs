@@ -28,25 +28,25 @@ public static class GameObjectExtensions
 	/// <summary>
 	/// Play a sound via the GameObject.
 	/// </summary>
-	public static void PlaySound( this GameObject self, SoundEvent sndEvent, SoundSettings? settings = null )
+	public static SoundHandle PlaySound( this GameObject self, SoundEvent sndEvent, SoundSettings? settings = null )
 	{
-		if ( !self.IsValid() )
-			return;
+		if ( !self.IsValid() || sndEvent is null )
+			return null;
 
-		if ( sndEvent is null )
-			return;
-
+		var handle = self.PlaySound( sndEvent );
 		settings ??= new SoundSettings();
 		settings.Value.SetHandle( self.PlaySound( sndEvent ) );
+		return handle;
 	}
 
 	/// <summary>
 	/// Play a sound via the GameObject.
 	/// </summary>
-	public static void PlaySound( this GameObject self, string sndPath, SoundSettings? settings = null )
+	public static SoundHandle PlaySound( this GameObject self, string sndPath, SoundSettings? settings = null )
 	{
 		if ( ResourceLibrary.TryGet<SoundEvent>( sndPath, out var sndEvent ) )
-			self.PlaySound( sndEvent, settings );
+			return self.PlaySound( sndEvent, settings );
+		return null;
 	}
 
 	/// <summary>
