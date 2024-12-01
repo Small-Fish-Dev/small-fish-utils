@@ -37,7 +37,16 @@ public static class GameObjectExtensions
 			return;
 
 		settings ??= new SoundSettings();
-		var emitter = self.Components.Create<SoundEmitter>();
+
+		var gameObject = self.Scene.CreateObject();
+		gameObject.Name = sndEvent.ResourceName;
+
+		if ( settings.Value.Follow )
+			gameObject.Parent = self;
+		else
+			gameObject.Transform.World = self.Transform.World;
+
+		var emitter = gameObject.Components.Create<SoundEmitter>();
 
 		emitter.SoundEvent = sndEvent;
 		emitter.Follow = settings.Value.Follow;
