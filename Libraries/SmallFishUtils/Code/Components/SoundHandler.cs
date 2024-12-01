@@ -6,11 +6,6 @@ namespace SmallFishUtils;
 public struct SoundSettings
 {
 	/// <summary>
-	/// Should we follow the GameObject?
-	/// </summary>
-	public bool Follow = true;
-
-	/// <summary>
 	/// Override the pitch?
 	/// </summary>
 	public float? Pitch = null;
@@ -24,6 +19,16 @@ public struct SoundSettings
 	/// The time it takes for the sound to fade.
 	/// </summary>
 	public float FadeTime = 0;
+
+	/// <summary>
+	/// Should we follow the GameObject?
+	/// </summary>
+	public bool Follow = true;
+
+	/// <summary>
+	/// Should we stop the sound if the parent GameObject is destroyed?
+	/// </summary>
+	public bool StopOnDestroy = true;
 
 	/// <summary>
 	/// The mixer that the sound will play from.
@@ -58,7 +63,7 @@ public sealed class SoundHandler : Component
 	{
 		[KeyProperty] public readonly string Name => Handle.IsValid() ? Handle.Name : "";
 		[Hide] public SoundHandle Handle;
-		[Hide] public SoundSettings Settings;
+		[Hide] public SoundSettings Config;
 	}
 
 	[Property]
@@ -69,7 +74,7 @@ public sealed class SoundHandler : Component
 		if ( !handle.IsValid() )
 			return;
 
-		ActiveSounds.Add( new SoundConfig() { Handle = handle, Settings = soundSettings } );
+		ActiveSounds.Add( new SoundConfig() { Handle = handle, Config = soundSettings } );
 	}
 
 	protected override void OnUpdate()
@@ -86,8 +91,8 @@ public sealed class SoundHandler : Component
 	{
 		foreach ( var sound in ActiveSounds )
 		{
-			if ( sound.Handle.IsValid() )
-				sound.Handle.Stop( sound.Settings.FadeTime );
+			if ( sound.Handle.IsValid() && sound.Config.StopOnDestroy )
+				sound.Handle.Stop( sound.Config.FadeTime );
 		}
 	}
 }
