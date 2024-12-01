@@ -37,30 +37,7 @@ public static class GameObjectExtensions
 			return;
 
 		settings ??= new SoundSettings();
-
-		var gameObject = self.Scene.CreateObject();
-		gameObject.Name = sndEvent.ResourceName;
-
-		if ( settings.Value.Follow )
-			gameObject.Parent = self;
-		else
-			gameObject.Transform.World = self.Transform.World;
-
-		var emitter = gameObject.Components.Create<SoundEmitter>();
-
-		emitter.SoundEvent = sndEvent;
-		emitter.Follow = settings.Value.Follow;
-
-		if ( settings.Value.Pitch.HasValue )
-			emitter.Pitch = settings.Value.Pitch.Value;
-
-		if ( settings.Value.Volume.HasValue )
-			emitter.Volume = settings.Value.Volume;
-
-		if ( !string.IsNullOrEmpty( settings.Value.Mixer ) )
-			emitter.MixerName = settings.Value.Mixer;
-
-		emitter.Play();
+		settings.Value.SetHandle( self.PlaySound( sndEvent ) );
 	}
 
 	/// <summary>

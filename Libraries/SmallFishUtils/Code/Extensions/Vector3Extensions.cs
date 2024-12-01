@@ -11,17 +11,7 @@ public static class Vector3Extensions
 			return;
 
 		settings ??= new SoundSettings();
-
-		var handle = Sound.Play( sndEvent, pos );
-
-		if ( settings.Value.Pitch.HasValue )
-			handle.Pitch = settings.Value.Pitch.Value;
-
-		if ( settings.Value.Volume.HasValue )
-			handle.Volume = settings.Value.Volume.Value;
-
-		if ( !string.IsNullOrEmpty( settings.Value.Mixer ) )
-			handle.TargetMixer = Mixer.FindMixerByName( settings.Value.Mixer );
+		settings.Value.SetHandle( Sound.Play( sndEvent, pos ) );
 	}
 
 	public static void PlaySound( this Vector3 pos, string sndPath, SoundSettings? settings = null )
