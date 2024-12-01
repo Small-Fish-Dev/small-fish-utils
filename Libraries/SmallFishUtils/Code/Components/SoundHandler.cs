@@ -26,14 +26,22 @@ public struct SoundSettings
 	public bool Follow = true;
 
 	/// <summary>
-	/// Should we stop the sound if the parent GameObject is destroyed?
+	/// When should the sound stop... if at all?
 	/// </summary>
-	public bool StopOnDestroy = true;
+	public StopCondition StopOn = StopCondition.Destroy;
 
 	/// <summary>
 	/// The mixer that the sound will play from.
 	/// </summary>
 	public string Mixer = "";
+
+	[Flags]
+	public enum StopCondition
+	{
+		Natrual = 0, // The sound will stop when it is finished playing.
+		Destroy = 1 << 0, // The sound stops when the component is destroyed.
+		Disabled = 1 << 1 // The sound stops when the component is disabled.
+	}
 
 	public SoundSettings() { }
 
@@ -66,7 +74,7 @@ public sealed class SoundHandler : Component
 		[Hide] public SoundSettings Config;
 	}
 
-	[Property]
+	[Property, ReadOnly]
 	public List<SoundConfig> ActiveSounds { get; set; } = new();
 
 	public void AddSound( SoundHandle handle, SoundSettings soundSettings )
@@ -87,11 +95,20 @@ public sealed class SoundHandler : Component
 		}
 	}
 
+	protected override void OnDisabled()
+	{
+		foreach ( var sound in ActiveSounds )
+		{
+			if ( sound.Handle.IsValid() && sound.Config.StopOn.HasFlag( SoundSettings.StopCondition.Disabled ) )
+				sound.Handle.Stop( sound.Config.FadeTime );
+		}
+	}
+
 	protected override void OnDestroy()
 	{
 		foreach ( var sound in ActiveSounds )
 		{
-			if ( sound.Handle.IsValid() && sound.Config.StopOnDestroy )
+			if ( sound.Handle.IsValid() && sound.Config.StopOn.HasFlag( SoundSettings.StopCondition.Destroy ) )
 				sound.Handle.Stop( sound.Config.FadeTime );
 		}
 	}
