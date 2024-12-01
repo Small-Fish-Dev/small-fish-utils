@@ -38,7 +38,7 @@ public struct SoundSettings
 	[Flags]
 	public enum StopCondition
 	{
-		Natrual = 0, // The sound will stop when it is finished playing.
+		Natural = 0, // The sound will stop when it is finished playing.
 		Destroy = 1 << 0, // The sound stops when the component is destroyed.
 		Disabled = 1 << 1 // The sound stops when the component is disabled.
 	}
