@@ -12,7 +12,7 @@ public static class Vector3Extensions
 
 		var handle = Sound.Play( sndEvent, pos );
 		settings ??= new SoundSettings();
-		settings.Value.SetHandle( handle );
+		settings.Value.SetHandleSettings( handle );
 		return handle;
 	}
 

@@ -35,7 +35,11 @@ public static class GameObjectExtensions
 
 		var handle = self.PlaySound( sndEvent );
 		settings ??= new SoundSettings();
-		settings.Value.SetHandle( handle );
+		settings.Value.SetHandleSettings( handle );
+
+		var soundHandler = self.Components.GetOrCreate<SoundHandler>();
+		soundHandler.AddSound( handle, settings.Value );
+
 		return handle;
 	}
 
