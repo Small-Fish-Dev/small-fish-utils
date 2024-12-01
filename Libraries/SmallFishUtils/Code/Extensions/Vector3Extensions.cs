@@ -31,7 +31,7 @@ public static class Vector3Extensions
 	}
 
 	/// <summary>
-	/// Broadcast a sound.
+	/// Broadcast a sound at the given position.
 	/// </summary>
 	[Rpc.Broadcast]
 	public static void BroadcastSound( this Vector3 pos, SoundEvent soundEvent, SoundSettings? settings = null )
