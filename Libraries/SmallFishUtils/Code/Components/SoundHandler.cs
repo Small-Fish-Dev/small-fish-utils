@@ -21,6 +21,11 @@ public struct SoundSettings
 	public float FadeTime = 0;
 
 	/// <summary>
+	/// The mixer that the sound will play from.
+	/// </summary>
+	public string Mixer = "";
+
+	/// <summary>
 	/// Should we follow the GameObject?
 	/// </summary>
 	public bool Follow = true;
@@ -30,15 +35,10 @@ public struct SoundSettings
 	/// </summary>
 	public StopCondition StopOn = StopCondition.Destroy;
 
-	/// <summary>
-	/// The mixer that the sound will play from.
-	/// </summary>
-	public string Mixer = "";
-
 	[Flags]
 	public enum StopCondition
 	{
-		Natural = 0, // The sound will stop when it is finished playing.
+		None = 0, // The sound will stop when it is finished playing.
 		Destroy = 1 << 0, // The sound stops when the component is destroyed.
 		Disabled = 1 << 1 // The sound stops when the component is disabled.
 	}
