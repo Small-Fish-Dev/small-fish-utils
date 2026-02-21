@@ -6,7 +6,7 @@ public static class GameObjectExtensions
 	/// Setup the networking for a GameObject. If already networked and the owner is provided
 	/// then the ownership will be assigned to the provided owner.
 	/// </summary>
-	public static void SetupNetworking(
+	public static void NetworkSpawnOrAssignOwner(
 		this GameObject obj,
 		Connection owner = null,
 		OwnerTransfer transfer = OwnerTransfer.Takeover,
@@ -15,10 +15,17 @@ public static class GameObjectExtensions
 		if ( !obj.IsValid() )
 			return;
 
+		var parent = obj.Parent;
+		if ( parent.IsValid() )
+			obj.Parent = null;
+
 		if ( !obj.Network.Active )
 			obj.NetworkSpawn( new NetworkSpawnOptions() { Owner = owner, OwnerTransfer = transfer, OrphanedMode = orphaned } );
 		else if ( Networking.IsActive && owner != null )
 			obj.Network.AssignOwnership( owner );
+
+		if ( parent.IsValid() )
+			obj.Parent = parent;
 	}
 
 	/// <summary>
