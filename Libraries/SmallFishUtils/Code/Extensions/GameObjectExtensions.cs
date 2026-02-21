@@ -3,7 +3,8 @@ namespace SmallFishUtils;
 public static class GameObjectExtensions
 {
 	/// <summary>
-	/// Setup the networking for a GameObject.
+	/// Setup the networking for a GameObject. If already networked and the owner is provided
+	/// then the ownership will be assigned to the provided owner.
 	/// </summary>
 	public static void SetupNetworking(
 		this GameObject obj,
@@ -14,15 +15,10 @@ public static class GameObjectExtensions
 		if ( !obj.IsValid() )
 			return;
 
-		obj.NetworkMode = NetworkMode.Object;
-
 		if ( !obj.Network.Active )
-			obj.NetworkSpawn( owner );
+			obj.NetworkSpawn( new NetworkSpawnOptions() { Owner = owner, OwnerTransfer = transfer, OrphanedMode = orphaned } );
 		else if ( Networking.IsActive && owner != null )
 			obj.Network.AssignOwnership( owner );
-
-		obj.Network.SetOwnerTransfer( transfer );
-		obj.Network.SetOrphanedMode( orphaned );
 	}
 
 	/// <summary>
